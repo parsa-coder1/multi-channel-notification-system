@@ -4,13 +4,18 @@ from notifications.whatsapp import WhatsappNotification
 
 class NotificationFactory:
 
+    notification_types = {
+        "email": EmailNotification,
+        "sms": SmsNotification,
+        "whatsapp": WhatsappNotification
+    }
+
     @staticmethod
     def create(notification_type):
-        if notification_type == "email":
-            return EmailNotification()
-        
-        elif notification_type == "sms":
-            return SmsNotification()
-        
-        elif notification_type == "whatsapp":
-            return WhatsappNotification()
+
+        notification_class = NotificationFactory.notification_types.get(notification_type)
+
+        if notification_class is None:
+            return None
+
+        return notification_class()
