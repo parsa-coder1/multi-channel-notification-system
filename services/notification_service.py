@@ -7,4 +7,10 @@ class NotificationService:
 
 
     def send_notification(self, message: str):
-        self.notification.send(message)
+        result = self.notification.send(message)
+
+        if result:
+            print("notification sent successfully!")
+
+        else:
+            print("failed to send notification!")
