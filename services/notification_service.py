@@ -1,4 +1,5 @@
 from notifications.base import Notification
+from exceptions import RetryableNotificationError, NonRetryableNotificationError
 
 class NotificationService:
 
@@ -10,13 +11,18 @@ class NotificationService:
     def send_notification(self, message: str):
 
         for attempt in range(self.max_attempts):
-            result = self.notification.send(message)
+            try:
+                self.notification.send(message)
 
-            if result:
                 print(f"notification sent successfully in attempt {attempt + 1}")
-                break
-            else:
-                print(f"[attempt {attempt + 1}]failed. retrying...")
+                return True
+            
+            except RetryableNotificationError as e:
+                print(f"[attempt {attempt + 1}]temporary failure. retrying... Error: {e}")
 
-        else:
-            print("failed to send notification after maximum attempts!")
+            except NonRetryableNotificationError as e:
+                print(f"permanent failure: {e}")
+                return False
+
+        print("failed to send notification after maximum attempts!")
+        return False

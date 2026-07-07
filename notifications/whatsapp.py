@@ -1,14 +1,20 @@
 import random
 from .base import Notification
+from exceptions import RetryableNotificationError, NonRetryableNotificationError
 
 
 class WhatsappNotification(Notification):
 
     def send(self, message):
 
-        if random.choice([True, False]):
+        status =random.choice(["success", "failure", "exception"])
+
+        if status == "success":
             print(f"sending message by whatsapp: {message}")
             return True
         
-        else:
-            return False
+        elif status == "failure":
+            raise RetryableNotificationError("whatsapp server temporarily unavailable")
+        
+        elif status == "exception":
+            raise NonRetryableNotificationError("invalid input")
