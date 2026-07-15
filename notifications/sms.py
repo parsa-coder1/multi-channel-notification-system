@@ -7,14 +7,18 @@ class SmsNotification(Notification):
 
     def send(self, message):
 
-        status = random.choice(["success", "failure", "exception"])
+        status = random.choice(["success", "retryable", "non_retryable"])
 
         if status == "success":
             print(f"sending SMS: {message}")
             return True
         
-        elif status == "failure":
+        elif status == "retryable":
             raise RetryableNotificationError("sms server temporarily unavailable")
         
-        elif status == "exception":
+        elif status == "non_retryable":
             raise NonRetryableNotificationError("invalid input")
+        
+        else:
+            raise ValueError(f"unknown status: {status}")
+        

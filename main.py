@@ -1,8 +1,6 @@
 from factories.notification_factory import NotificationFactory
 from services.notification_service import NotificationService
-from retry_strategies.simple_retry import SimpleRetryStrategy
-from retry_strategies.no_retry import NoRetryStrategy
-from retry_strategies.exponential_backoff import ExponentialBackoffStrategy
+from factories.retry_strategy_factory import RetryStrategyFactory
 
 for attempt in range(3):
     notification_type = input("enter notification type: ")
@@ -13,7 +11,11 @@ for attempt in range(3):
         print("invalid notification type!")
         continue
 
-    retry_strategy = ExponentialBackoffStrategy(4, 2, 3)
+    try:
+        retry_strategy = RetryStrategyFactory.create(notification)
+    except ValueError as e:
+        print(e)
+        continue
 
     service = NotificationService(notification, retry_strategy)
     service.send_notification("welcome to our system")

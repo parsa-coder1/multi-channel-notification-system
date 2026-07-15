@@ -7,13 +7,16 @@ class EmailNotification(Notification):
 
     def send(self, message):
 
-        status = random.choice(["success", "failure", "exception"])
+        status = random.choice(["success", "retryable", "non_retryable"])
         if status == "success":
             print(f"sending email: {message}")
             return True
         
-        elif status == "failure":
+        elif status == "retryable":
             raise RetryableNotificationError("email server temporarily unavailable")
         
-        elif status == "exception":
-             raise NonRetryableNotificationError("invalid input")
+        elif status == "non_retryable":
+            raise NonRetryableNotificationError("invalid input")
+        
+        else:
+            raise ValueError(f"unknown status: {status}")
