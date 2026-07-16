@@ -5,6 +5,8 @@ from exceptions import RetryableNotificationError, NonRetryableNotificationError
 
 class SmsNotification(Notification):
 
+    retry_type = "exponential"
+
     def send(self, message):
 
         status = random.choice(["success", "retryable", "non_retryable"])

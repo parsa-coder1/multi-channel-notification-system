@@ -5,6 +5,8 @@ from exceptions import RetryableNotificationError, NonRetryableNotificationError
 
 class WhatsappNotification(Notification):
 
+    retry_type = "no_retry"
+
     def send(self, message):
 
         status =random.choice(["success", "retryable", "non_retryable"])

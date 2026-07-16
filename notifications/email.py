@@ -5,6 +5,8 @@ from exceptions import RetryableNotificationError, NonRetryableNotificationError
 
 class EmailNotification(Notification):
 
+    retry_type = "simple"
+
     def send(self, message):
 
         status = random.choice(["success", "retryable", "non_retryable"])
