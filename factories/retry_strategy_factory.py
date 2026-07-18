@@ -35,7 +35,7 @@ class RetryStrategyFactory:
         
         copy_config = config.copy()
 
-        strategy_class = copy_config.get("class")
+        strategy_class = copy_config["class"]
 
         del copy_config["class"]
 
