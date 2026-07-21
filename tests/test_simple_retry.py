@@ -1,12 +1,12 @@
-import pytest
 from retry_strategies.simple_retry import SimpleRetryStrategy
+from exceptions import RetryableNotificationError, NonRetryableNotificationError
 
 
 def test_handle_retryable_error_returns_true_when_attempts_remain():
 
     strategy =SimpleRetryStrategy(3)
 
-    error = Exception("temporary error")
+    error = RetryableNotificationError("temporary error")
 
     attempt = 1
 
@@ -19,7 +19,7 @@ def test_handle_retryable_error_returns_false_when_no_attempt_remain():
 
     strategy = SimpleRetryStrategy(3)
 
-    error = Exception("permanent error")
+    error = NonRetryableNotificationError("permanent error")
 
     attempt = 2
 
