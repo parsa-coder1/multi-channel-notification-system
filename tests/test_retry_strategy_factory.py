@@ -33,7 +33,7 @@ def test_retry_strategy_factory_returns_exponential_strategy():
     assert isinstance(result, ExponentialBackoffStrategy)
 
 
-def TEST_CREATE_RAISES_VALUE_ERROR_FOR_UNKNOWN_RETRY_STRATEGY():
+def test_create_raises_value_error_for_unknown_retry_strategy():
 
     class FakeNotification:
         retry_type = "unknown"
